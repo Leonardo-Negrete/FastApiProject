@@ -1,0 +1,60 @@
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.py[cod]
+*$py.class
+
+# Entorno virtual
+venv/
+.env
+*.env
+
+# Archivos de configuración sensibles
+.env.local
+
+# Docker
+*.log
+docker-compose.override.yml
+docker-compose.override.yaml
+*.pid
+docker/
+Dockerfile
+
+# Bases de datos locales
+*.db
+*.sqlite3
+
+# Node (si usas herramientas como npm para tu proyecto)
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDEs y herramientas de desarrollo
+.vscode/
+.idea/
+*.swp
+
+# Cobertura de pruebas
+.coverage
+*.cover
+.pytest_cache/
+.tox/
+.nox/
+htmlcov/
+
+# Archivos de compilación
+dist/
+build/
+
+# Archivos de Sphinx (si haces documentación técnica)
+docs/_build/
+
+# Archivos relacionados con Jupyter Notebook (si aplican)
+.ipynb_checkpoints
+
+# Otros
+log/
+logs/
+*.log
+debug.log
