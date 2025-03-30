@@ -19,7 +19,6 @@ docker-compose.override.yml
 docker-compose.override.yaml
 *.pid
 docker/
-Dockerfile
 
 # Bases de datos locales
 *.db
