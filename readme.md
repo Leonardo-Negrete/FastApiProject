@@ -1,6 +1,10 @@
+*Inicair el proyecto
+    1.- Crear un entorno virtual "python3 -m venv venv"
+    2.- Activar el entorno virtual "en PowerShell → venv\Scripts\Activate, en CMD → venv\Scripts\activate.bat
+
 *Ejecutar fastapi cuando no es un contenedor 2 formas
-    1.- uvicorn main:app
-    2.- python .\main.py
+    uvicorn main:app
+    python .\main.py
 
 *Ejecutar fastapi en contendor
     1.- docker build -t fastapi-app:1 .
