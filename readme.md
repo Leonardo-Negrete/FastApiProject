@@ -16,6 +16,7 @@ NOTA: La API está configurada para correr con un base de datos de mysql llamada
     1.- Compilar el docker compose "docker-compose up -d --build"
     2.- Crear una nueva conexion en tu SMBD con usuario "user", contraseña "password" (si te lo solicita) y puerto 3307 (hecho asi, para evitar colisiones con otra base de datos ya hecha anteriormente).
     3.- Si deseas levantar un docker compose que ya haya sido compilado y no has movido nada en el codigo solo usa "docker-compose up -d"
+    4.-(opcional) para versionar la imagen de la api usa "docker tag fastapi-api:latest fastapi-api:<version>" despues de compliar el docker compose y no olvides borrar en docker desktop la version latest.
 
 *Detener docker compose fastapi
     1.-docker-compose stop
