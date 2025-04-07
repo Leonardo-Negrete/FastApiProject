@@ -37,10 +37,17 @@ def update_user(db: Session, user_id: int, user_data: UpdateUser):
     db_user = db.query(Users).filter(Users.id == user_id).first()
     if not db_user:
         return None
-    
+
+    # Validar manualmente si el nuevo email ya está registrado por otro usuario
+    if user_data.email:
+        existing_user = db.query(Users).filter(Users.email == user_data.email, Users.id != user_id).first()
+        if existing_user:
+            raise HTTPException(status_code=409, detail="Email already registered by another user")
+
+    # Actualizar solo los campos proporcionados
     for key, value in user_data.dict(exclude_unset=True).items():
         setattr(db_user, key, value)
-    
+
     db.commit()
     db.refresh(db_user)
     return db_user
