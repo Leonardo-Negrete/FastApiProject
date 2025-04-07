@@ -4,15 +4,43 @@ FORMA 1
 *Ejecutar fastapi y un contenedor MySql con docker compose
     1.- EJECUTA EL SIGUIENTE COMANDO PARA Compilar el docker compose "docker-compose up -d --build"
     2.- Si deseas levantar un docker compose que ya haya sido compilado y no has movido nada en el codigo solo usa "docker-compose up -d"
-    3.- EN LOS ARCHIVOS DE CONFIGURACION SE USA LO SIGUIENTE  usuario "user", contraseña "password" y puerto 3307  CON ESTOS DATOS SE DEBE HACER LA CONEXION AL WORKBRENCH .
-
-    4.-(opcional) para versionar la imagen de la api usa "docker tag fastapi-api:latest fastapi-api:<version>" despues de compliar el docker compose y no olvides borrar en docker desktop la version latest.
+    3.- Para acceder al swagger hay que colocar la siguiente url "http://localhost:8000/docs"
+    4.- EN LOS ARCHIVOS DE CONFIGURACION SE USA LO SIGUIENTE  usuario "user", contraseña "password" y puerto 3307  CON ESTOS DATOS SE DEBE HACER LA CONEXION AL WORKBRENCH.
+    5.-(opcional) para versionar la imagen de la api usa "docker tag fastapi-api:latest fastapi-api:<version>" despues de compliar el docker compose y no olvides borrar en docker desktop la version latest.
 
 *Detener docker compose fastapi
     1.-docker-compose stop
 
 *Para eliminar todo (contenedores, network y volumen):
     1.-docker-compose down -v
+
+*Como probar la api en postman
+    1.-Get con paginacion, ejemplo "http://localhost:8000/Users?name=a", debe de responder 200 si existen el o los usuarios sino, 200 (lista vacia)
+    
+    2-Get por id ejemplo, "http://localhost:8000/Users/1", debe de responder 200 si existe el usuario sino, 404 (no existe el usuario)
+
+    3.-Post ejemplo, "http://localhost:8000/Users/" con el siguiente body:
+    {
+    "name": "Ana",
+    "lastname": "Ramírez",
+    "address": "Calle Luna 123",
+    "phone": 554,
+    "email": "ana.ramirez@example.com"
+    }
+    debe de responder 204 si se creo el usuario sino, 409 (si existe un usuario con el email duplicado)
+
+    4.-Delete ejemplo, "http://localhost:8000/Users/1" debe de responder 204 si se elimino el usuario sino, 404 (no existe el usuario)
+
+    5.-Update ejemplo, "http://localhost:8000/Users/1" con el siguiente body 
+    {
+    "name": "Ana",
+    "lastname": "Ramírez",
+    "address": "Calle Juan 123",
+    "phone": 4562124896,
+    "email": "ana.ramirez@example.com"
+    }
+    debe de responder 204 si se actualizo el usuario sino, 409 (si se quiere actualizar un usuario con un email que ya existe en otro usuario)
+
 
 
 

@@ -21,7 +21,7 @@ class CreateUser(BaseModel): #schema
     name: str
     lastname: str
     address: Optional[str] = None
-    phone: int = Field(gt=0, le=10)
+    phone: int = Field(gt=0)
     email: str
     status: bool = True
 
@@ -31,5 +31,5 @@ class UpdateUser(BaseModel): #schema
     address: Optional[str] = None #Optional[str]: La variable puede ser una cadena o None.
                                   # None: Si no se proporciona un valor, se asume que es None.
     email: str
-    phone: int = Field(gt=0, le=10)
+    phone: int = Field(gt=0)
     status: bool = True

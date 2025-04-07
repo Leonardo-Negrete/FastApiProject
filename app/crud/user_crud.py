@@ -45,7 +45,7 @@ def update_user(db: Session, user_id: int, user_data: UpdateUser):
             raise HTTPException(status_code=409, detail="Email already registered by another user")
 
     # Actualizar solo los campos proporcionados
-    for key, value in user_data.dict(exclude_unset=True).items():
+    for key, value in user_data.model_dump(exclude_unset=True).items():
         setattr(db_user, key, value)
 
     db.commit()
