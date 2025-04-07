@@ -27,13 +27,8 @@ def GetUserByName(name: str = Query(..., description="Nombre a buscar"),
 
 @router.post("/", response_model=User, status_code=201)
 def create_user_endpoint(user: CreateUser, db: Session = Depends(get_db)) -> User:
-    try:
         return create_user(db, user)
-    except IntegrityError:
-        raise HTTPException(
-            status_code=409,
-            detail="Email already registered"
-        )
+
 
 @router.put("/{id}", status_code=204)
 def update_user_by_id(id: int, user: UpdateUser, db: Session = Depends(get_db)) -> None:

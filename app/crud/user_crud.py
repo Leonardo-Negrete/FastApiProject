@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.usersEntity import Users
 from app.schemas.userSchemas import CreateUser, UpdateUser
 from sqlalchemy.exc import IntegrityError
-
+from fastapi import HTTPException
 # Obtener un usuario por ID
 def get_user_by_id(db: Session, user_id: int):
     return db.query(Users).filter(Users.id == user_id).first()
@@ -14,10 +14,9 @@ def get_users_by_name(db: Session, name: str, page: int, limit: int = 2):
 
 # Crear un nuevo usuario
 def create_user(db: Session, user: CreateUser):
-    # Verificar si el correo ya está registrado
     existing_user = db.query(Users).filter(Users.email == user.email).first()
     if existing_user:
-        raise IntegrityError("Email already registered", None, None)
+        raise HTTPException(status_code=409, detail="Email already registered")
     
     new_user = Users(
         name=user.name,
