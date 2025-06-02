@@ -9,11 +9,15 @@ JWKS_URL = "http://hydra-public:4444/.well-known/jwks.json"
 # Obtener JWKS de Hydra
 jwks = requests.get(JWKS_URL).json()
 
-# 🔐 Clase personalizada para devolver 401 en lugar de 403 cuando no se envía el token
+#  Clase personalizada para devolver 401 en lugar de 403 cuando no se envía el token
 class HTTPBearer401(HTTPBearer):
+    def __init__(self, **kwargs):
+        # auto_error=False evita que super().__call__ lance 403 de inmediato
+        super().__init__(auto_error=False, **kwargs)
+    
     async def __call__(self, request: Request) -> HTTPAuthorizationCredentials:
-        credentials: HTTPAuthorizationCredentials = await super().__call__(request)
-        if not credentials or not credentials.scheme.lower() == "bearer":
+        credentials = await super().__call__(request)
+        if not credentials or credentials.scheme.lower() != "bearer":
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Not authenticated",
@@ -24,14 +28,14 @@ class HTTPBearer401(HTTPBearer):
 # Usamos nuestra clase personalizada en lugar de la original
 security = HTTPBearer401()
 
-# 🔑 Extraer clave pública desde el JWKS usando el 'kid'
+#  Extraer clave pública desde el JWKS usando el 'kid'
 def get_public_key(kid: str):
     for key in jwks["keys"]:
         if key["kid"] == kid:
             return key
     return None
 
-# 🔍 Verificar el token JWT
+#  Verificar el token JWT
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
@@ -65,7 +69,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
         raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")
 
 
-# 🔒 Manejamos el Scope dentro del Token
+#  Manejamos el Scope dentro del Token
 def require_scope(required_scope: str):
     def scope_dependency(token_data: dict = Depends(verify_token)):
         # Obtener los scopes del token
